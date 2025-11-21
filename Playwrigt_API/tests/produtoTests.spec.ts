@@ -30,7 +30,7 @@ test('Cadastrar Produto(s)', async () => {
   const response = await apiRequestContext.post('https://serverest.dev/produtos', {
     ignoreHTTPSErrors: true,
     headers: {
-      Authorization: `Bearer ${token}`
+      Authorization: `${token}`
     },
     data: {
       nome: prodData.nomeDoProduto,
@@ -46,28 +46,8 @@ test('Cadastrar Produto(s)', async () => {
 });
 
 test.afterAll(async () => {
-  await teardownUsuario();
+  await teardownUsuario
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
