@@ -1,10 +1,12 @@
-
 import { test, expect } from '@playwright/test';
 import { setupUsuario } from './helpers/userHelper.js';
 import { prodData } from './data/prodData.ts';
 import { userData } from './data/userData.js';
+import { teardownProduto } from './helpers/helpersProduto.ts';
 
 let apiRequestContext;
+let idProduto;
+let token;
 
 test.beforeAll(async () => {
   const setup = await setupUsuario();
@@ -12,7 +14,6 @@ test.beforeAll(async () => {
 });
 
 test('Cadastrar e buscar produto por ID', async () => {
-  // 1. Login para obter token
   const loginResponse = await apiRequestContext.post('https://serverest.dev/login', {
     ignoreHTTPSErrors: true,
     data: {
@@ -23,9 +24,9 @@ test('Cadastrar e buscar produto por ID', async () => {
 
   expect(loginResponse.status()).toBe(200);
   const loginBody = await loginResponse.json();
-  const token = loginBody.authorization;
+  token = loginBody.authorization; // agora global
 
-  // 2. Cadastrar produto
+  // 2. Cadastro do produto
   const cadastroResponse = await apiRequestContext.post('https://serverest.dev/produtos', {
     ignoreHTTPSErrors: true,
     headers: {
@@ -34,7 +35,7 @@ test('Cadastrar e buscar produto por ID', async () => {
     data: {
       nome: prodData.nomeDoProduto2,
       descricao: prodData.descricao,
-      preco: prodData.preco,
+      preco: Number(prodData.preco), // evita erro "450" vs 450
       quantidade: prodData.quantidade
     }
   });
@@ -43,10 +44,11 @@ test('Cadastrar e buscar produto por ID', async () => {
   const cadastroBody = await cadastroResponse.json();
   expect(cadastroBody.message).toBe('Cadastro realizado com sucesso');
 
-  const produtoId = cadastroBody._id;
-  expect(produtoId).toBeTruthy();
-  
-  const buscaResponse = await apiRequestContext.get(`https://serverest.dev/produtos/${produtoId}`, {
+  idProduto = cadastroBody._id; // agora global
+  expect(idProduto).toBeTruthy();
+
+  // 3. Busca do produto
+  const buscaResponse = await apiRequestContext.get(`https://serverest.dev/produtos/${idProduto}`, {
     ignoreHTTPSErrors: true,
     headers: {
       Authorization: `${token}`
@@ -61,4 +63,8 @@ test('Cadastrar e buscar produto por ID', async () => {
   expect(buscaBody.descricao).toBe(prodData.descricao);
   expect(buscaBody.preco).toBe(prodData.preco);
   expect(buscaBody.quantidade).toBe(prodData.quantidade);
+});
+
+test.afterEach(async () => {
+  await teardownProduto(apiRequestContext, idProduto, token);
 });
