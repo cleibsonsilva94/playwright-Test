@@ -1,70 +1,28 @@
 import { test, expect } from '@playwright/test';
-import { setupUsuario } from './helpers/userHelper.js';
-import { prodData } from './data/prodData.ts';
-import { userData } from './data/userData.js';
-import { teardownProduto } from './helpers/helpersProduto.ts';
+import { login, cadastrarProduto, buscarProduto, excluirProduto } from './helpers/helpersProduto.js';
+import { prodData } from './data/prodData.js';
 
-let apiRequestContext;
-let idProduto;
-let token;
+test('Cadastrar e buscar produto por ID', async ({ request }) => {
+  // 1. Login
+  const token = await login(request);
 
-test.beforeAll(async () => {
-  const setup = await setupUsuario();
-  apiRequestContext = setup.apiRequestContext;
-});
-
-test('Cadastrar e buscar produto por ID', async () => {
-  const loginResponse = await apiRequestContext.post('https://serverest.dev/login', {
-    ignoreHTTPSErrors: true,
-    data: {
-      email: userData.email,
-      password: userData.senha
-    }
+  // 2. Cadastro
+  const produtoId = await cadastrarProduto(request, token, {
+    nome: prodData.nomeDoProduto2,
+    descricao: prodData.descricao,
+    preco: prodData.preco,
+    quantidade: prodData.quantidade
   });
 
-  expect(loginResponse.status()).toBe(200);
-  const loginBody = await loginResponse.json();
-  token = loginBody.authorization; // agora global
-
-  // 2. Cadastro do produto
-  const cadastroResponse = await apiRequestContext.post('https://serverest.dev/produtos', {
-    ignoreHTTPSErrors: true,
-    headers: {
-      Authorization: `${token}`
-    },
-    data: {
-      nome: prodData.nomeDoProduto2,
-      descricao: prodData.descricao,
-      preco: Number(prodData.preco), // evita erro "450" vs 450
-      quantidade: prodData.quantidade
-    }
-  });
-
-  expect(cadastroResponse.status()).toBe(201);
-  const cadastroBody = await cadastroResponse.json();
-  expect(cadastroBody.message).toBe('Cadastro realizado com sucesso');
-
-  idProduto = cadastroBody._id; // agora global
-  expect(idProduto).toBeTruthy();
-
-  // 3. Busca do produto
-  const buscaResponse = await apiRequestContext.get(`https://serverest.dev/produtos/${idProduto}`, {
-    ignoreHTTPSErrors: true,
-    headers: {
-      Authorization: `${token}`
-    }
-  });
-
-  expect(buscaResponse.status()).toBe(200);
-  const buscaBody = await buscaResponse.json();
+  // 3. Busca
+  const produto = await buscarProduto(request, token, produtoId);
 
   // 4. Validações
-  expect(buscaBody.nome).toBe(prodData.nomeDoProduto2);
-  expect(buscaBody.descricao).toBe(prodData.descricao);
-  expect(buscaBody.preco).toBe(prodData.preco);
-  expect(buscaBody.quantidade).toBe(prodData.quantidade);
-});
+  expect(produto.nome).toBe(prodData.nomeDoProduto2);
+  expect(produto.descricao).toBe(prodData.descricao);
+  expect(produto.preco).toBe(prodData.preco);
+  expect(produto.quantidade).toBe(prodData.quantidade);
 
-test.afterEach(async () => {
-  await teardownProduto(apiRequestContext, idProduto, token);
+  // 5. Exclusão
+  await excluirProduto(request, token, produtoId);
 });
