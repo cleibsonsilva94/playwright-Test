@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { setupUsuario, teardownUsuario, loginUsuario } from './helpers/userHelper.js';
-import { userData } from './data/userData.js';
+import { setupUsuario, teardownUsuario, loginUsuario, buscarUsuario, atualizarUsuario } from './helpers/userHelper';
+import { userData } from './data/userData';
 
 test.describe('API Usuário', () => {
-  let apiRequestContext;
-  let idUsuario;
+  let apiRequestContext: any;
+  let idUsuario: string;
 
   test.beforeEach(async () => {
     const setup = await setupUsuario();
@@ -13,7 +13,7 @@ test.describe('API Usuário', () => {
   });
 
   test.afterEach(async () => {
-    await teardownUsuario(idUsuario);
+    await teardownUsuario(apiRequestContext, idUsuario);
   });
 
   test('Login Usuário', async () => {
@@ -22,34 +22,22 @@ test.describe('API Usuário', () => {
   });
 
   test('Buscar usuário por ID', async () => {
-    const response = await apiRequestContext.get(`https://serverest.dev/usuarios/${idUsuario}`);
-    expect(response.status()).toBe(200);
-    const body = await response.json();
-    expect(body.nome).toBe(userData.nome);
-    expect(body.email).toBe(userData.email);
-    expect(body._id).toBe(idUsuario);
+    const usuario = await buscarUsuario(apiRequestContext, idUsuario);
+    expect(usuario.nome).toBe(userData.nome);
+    expect(usuario.email).toBe(userData.email);
+    expect(usuario._id).toBe(idUsuario);
   });
 
   test('Atualização de Usuário', async () => {
-    const token = await loginUsuario(apiRequestContext, userData.email, userData.senha);
-
-    const updateResponse = await apiRequestContext.put(`https://serverest.dev/usuarios/${idUsuario}`, {
-      // headers: { Authorization: `Bearer ${token}` },
-      data: {
-        nome: userData.nome2,
-        email: userData.email2,
-        password: userData.senha,
-        administrador: userData.administrador
-      }
+    await atualizarUsuario(apiRequestContext, idUsuario, {
+      nome: userData.nome2,
+      email: userData.email2,
+      password: userData.senha,
+      administrador: userData.administrador
     });
 
-    expect(updateResponse.status()).toBe(200);
-    const updateBody = await updateResponse.json();
-    expect(updateBody.message).toBe('Registro alterado com sucesso');
-
-    const getResponse = await apiRequestContext.get(`https://serverest.dev/usuarios/${idUsuario}`);
-    const getBody = await getResponse.json();
-    expect(getBody.nome).toBe(userData.nome2);
-    expect(getBody.email).toBe(userData.email2);
+    const usuarioAtualizado = await buscarUsuario(apiRequestContext, idUsuario);
+    expect(usuarioAtualizado.nome).toBe(userData.nome2);
+    expect(usuarioAtualizado.email).toBe(userData.email2);
   });
 });
