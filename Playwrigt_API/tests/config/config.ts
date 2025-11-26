@@ -3,6 +3,7 @@ export const config = {
   endpoints: {
     login: '/login',
     usuarios: '/usuarios',
-    produtos: '/produtos'
+    produtos: '/produtos',
+    carrinhos: '/carrinhos'
   }
 };
