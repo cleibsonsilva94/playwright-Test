@@ -72,16 +72,16 @@ export async function excluirProduto(apiRequestContext: APIRequestContext, token
 
 /*
 ==========================================
-📌 Comentários
+Comentários
 ==========================================
 
-✅ Importações
+Importações
 - expect → Função do Playwright usada para fazer asserções (validações) nos testes.
 - APIRequestContext → Tipo do Playwright que representa o contexto para fazer requisições HTTP.
 - config → Arquivo central com baseURL e endpoints, para evitar repetição de URLs.
 - prodData → Contém credenciais do usuário (email e senha).
 
-✅ Função login(request)
+Função login(request)
 Objetivo: Autenticar o usuário e obter o token JWT.
 Passos:
 1. Faz um POST para o endpoint de login (/login) usando request.post().
@@ -91,7 +91,7 @@ Passos:
 5. Retorna body.authorization (token JWT), que será usado nas próximas requisições.
 Por que usar expect aqui? Para garantir que o login foi bem-sucedido antes de continuar.
 
-✅ Função cadastrarProduto(request, token, produto)
+Função cadastrarProduto(request, token, produto)
 Objetivo: Criar um novo produto na API.
 Passos:
 1. Faz um POST para /produtos usando request.post().
@@ -101,7 +101,7 @@ Passos:
 5. Converte a resposta para JSON e retorna o _id do produto criado.
 Por que retornar _id? Para usar esse ID em operações futuras (buscar ou excluir).
 
-✅ Função buscarProduto(request, token, idProduto)
+Função buscarProduto(request, token, idProduto)
 Objetivo: Consultar os detalhes de um produto pelo ID.
 Passos:
 1. Faz um GET para /produtos/{id}.
@@ -110,7 +110,7 @@ Passos:
 4. Retorna o corpo da resposta (dados do produto).
 Por que validar status? Para garantir que a busca foi bem-sucedida antes de usar os dados.
 
-✅ Função excluirProduto(request, token, idProduto)
+Função excluirProduto(request, token, idProduto)
 Objetivo: Remover um produto pelo ID.
 Passos:
 1. Faz um DELETE para /produtos/{id}.
@@ -121,7 +121,7 @@ Passos:
    - "Registro excluído com sucesso" ou "Nenhum registro excluído".
 Por que essa verificação? Porque a API pode retornar que não havia registro para excluir, e isso não deve quebrar o teste.
 
-✅ Funções usadas e por que
+Funções usadas e por que
 - request.post(), request.get(), request.delete() → Métodos do Playwright para fazer requisições HTTP.
 - expect() → Validações para garantir que cada etapa foi bem-sucedida.
 - await res.json() → Converte a resposta da API para objeto JavaScript.
