@@ -4,6 +4,13 @@ export const prodData = {
   preco: 450, // já como número
   descricao: 'Máquina',
   quantidade: 10
+
+
+
+
+
+
+  
 };
 
 // userData.ts

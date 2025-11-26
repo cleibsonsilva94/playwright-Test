@@ -1,45 +1,75 @@
-import { expect, APIRequestContext } from '@playwright/test';
+
+import { APIRequestContext, request, expect } from '@playwright/test';
 import { config } from '../config/config';
 import { userData } from '../data/userData';
 
-export async function login(request: APIRequestContext): Promise<string> {
-  const res = await request.post(`${config.baseURL}${config.endpoints.login}`, {
+export async function setupUsuarioComContexto(): Promise<{ apiRequestContext: APIRequestContext; idUsuario: string }> {
+  const apiRequestContext = await request.newContext();
+
+  const res = await apiRequestContext.post(`${config.baseURL}${config.endpoints.usuarios}`, {
+    data: {
+      nome: userData.nome,
+      email: userData.email,
+      password: userData.senha,
+      administrador: userData.administrador
+    }
+  });
+
+  expect(res.status()).toBe(201);
+  const body = await res.json();
+
+  return { apiRequestContext, idUsuario: body._id };
+}
+
+export async function teardownUsuario(apiRequestContext: APIRequestContext, idUsuario: string): Promise<void> {
+  if (idUsuario) {
+    const res = await apiRequestContext.delete(`${config.baseURL}${config.endpoints.usuarios}/${idUsuario}`);
+    expect(res.status()).toBe(200);
+    const body = await res.json();
+    expect(['Registro excluído com sucesso', 'Nenhum registro excluído']).toContain(body.message);
+  }
+}
+
+export async function login(apiRequestContext: APIRequestContext): Promise<string> {
+  const res = await apiRequestContext.post(`${config.baseURL}${config.endpoints.login}`, {
     data: { email: userData.email, password: userData.senha }
   });
+
   expect(res.status()).toBe(200);
   const body = await res.json();
   return body.authorization;
 }
 
-export async function cadastrarProduto(request: APIRequestContext, token: string, produto: any): Promise<string> {
-  const res = await request.post(`${config.baseURL}${config.endpoints.produtos}`, {
+export async function cadastrarProduto(apiRequestContext: APIRequestContext, token: string, produto: any): Promise<string> {
+  const res = await apiRequestContext.post(`${config.baseURL}${config.endpoints.produtos}`, {
     headers: { Authorization: token },
     data: produto
   });
+
   expect(res.status()).toBe(201);
   const body = await res.json();
   return body._id;
 }
 
-export async function buscarProduto(request: APIRequestContext, token: string, idProduto: string): Promise<any> {
-  const res = await request.get(`${config.baseURL}${config.endpoints.produtos}/${idProduto}`, {
+export async function buscarProduto(apiRequestContext: APIRequestContext, token: string, idProduto: string): Promise<any> {
+  const res = await apiRequestContext.get(`${config.baseURL}${config.endpoints.produtos}/${idProduto}`, {
     headers: { Authorization: token }
   });
+
   expect(res.status()).toBe(200);
   return await res.json();
 }
 
-export async function excluirProduto(request: APIRequestContext, token: string, idProduto: string): Promise<void> {
-  const res = await request.delete(`${config.baseURL}${config.endpoints.produtos}/${idProduto}`, {
+export async function excluirProduto(apiRequestContext: APIRequestContext, token: string, idProduto: string): Promise<void> {
+  const res = await apiRequestContext.delete(`${config.baseURL}${config.endpoints.produtos}/${idProduto}`, {
     headers: { Authorization: token }
   });
+
   expect(res.status()).toBe(200);
   const body = await res.json();
   expect(['Registro excluído com sucesso', 'Nenhum registro excluído']).toContain(body.message);
+
 }
-
-
-
 
 /*
 ==========================================
