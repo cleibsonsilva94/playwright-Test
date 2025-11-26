@@ -1,17 +1,16 @@
-
 import { APIRequestContext, request, expect } from '@playwright/test';
 import { config } from '../config/config';
-import { userData } from '../data/userData';
+import { prodData } from '../data/prodData';
 
 export async function setupUsuarioComContexto(): Promise<{ apiRequestContext: APIRequestContext; idUsuario: string }> {
   const apiRequestContext = await request.newContext();
 
   const res = await apiRequestContext.post(`${config.baseURL}${config.endpoints.usuarios}`, {
     data: {
-      nome: userData.nome,
-      email: userData.email,
-      password: userData.senha,
-      administrador: userData.administrador
+      nome: prodData.nome,
+      email: prodData.email,
+      password: prodData.senha,
+      administrador: prodData.administrador
     }
   });
 
@@ -32,7 +31,7 @@ export async function teardownUsuario(apiRequestContext: APIRequestContext, idUs
 
 export async function login(apiRequestContext: APIRequestContext): Promise<string> {
   const res = await apiRequestContext.post(`${config.baseURL}${config.endpoints.login}`, {
-    data: { email: userData.email, password: userData.senha }
+    data: { email: prodData.email, password: prodData.senha }
   });
 
   expect(res.status()).toBe(200);
@@ -80,7 +79,7 @@ export async function excluirProduto(apiRequestContext: APIRequestContext, token
 - expect → Função do Playwright usada para fazer asserções (validações) nos testes.
 - APIRequestContext → Tipo do Playwright que representa o contexto para fazer requisições HTTP.
 - config → Arquivo central com baseURL e endpoints, para evitar repetição de URLs.
-- userData → Contém credenciais do usuário (email e senha).
+- prodData → Contém credenciais do usuário (email e senha).
 
 ✅ Função login(request)
 Objetivo: Autenticar o usuário e obter o token JWT.
