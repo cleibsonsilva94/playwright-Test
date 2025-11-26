@@ -1,37 +1,28 @@
 import { test, expect } from '@playwright/test';
-import { setupUsuarioComContexto, teardownUsuario, login, cadastrarProduto, buscarProduto, excluirProduto } from './helpers/helpersProduto';
-import { prodData } from './data/prodData';
+import { login, cadastrarProduto, buscarProduto, excluirProduto } from './helpers/helpersProduto.js';
+import { prodData } from './data/prodData.js';
 
-test.describe('API Produto', () => {
-  let apiRequestContext: any;
-  let idUsuario: string;
-  let token: string;
+test('Cadastrar e buscar produto por ID', async ({ request }) => {
+  // 1. Login
+  const token = await login(request);
 
-  test.beforeEach(async () => {
-    const setup = await setupUsuarioComContexto();
-    apiRequestContext = setup.apiRequestContext;
-    idUsuario = setup.idUsuario;
-
-    token = await login(apiRequestContext);
+  // 2. Cadastro
+  const produtoId = await cadastrarProduto(request, token, {
+    nome: prodData.nomeDoProduto2,
+    descricao: prodData.descricao,
+    preco: prodData.preco,
+    quantidade: prodData.quantidade
   });
 
-  test.afterEach(async () => {
-    await teardownUsuario(apiRequestContext, idUsuario);
-  });
+  // 3. Busca
+  const produto = await buscarProduto(request, token, produtoId);
 
-  test('Cadastrar e buscar produto por ID', async () => {
-    const produtoId = await cadastrarProduto(apiRequestContext, token, {
-      nome: prodData.nomeDoProduto2,
-      descricao: prodData.descricao,
-      preco: prodData.preco,
-      quantidade: prodData.quantidade
-    });
+  // 4. Validações
+  expect(produto.nome).toBe(prodData.nomeDoProduto2);
+  expect(produto.descricao).toBe(prodData.descricao);
+  expect(produto.preco).toBe(prodData.preco);
+  expect(produto.quantidade).toBe(prodData.quantidade);
 
-    const produto = await buscarProduto(apiRequestContext, token, produtoId);
-    expect(produto.nome).toBe(prodData.nomeDoProduto2);
-    expect(produto.descricao).toBe(prodData.descricao);
-    expect(produto.preco).toBe(prodData.preco);
-    expect(produto.quantidade).toBe(prodData.quantidade);
-    await excluirProduto(apiRequestContext, token, produtoId);
-  });
+  // 5. Exclusão
+  await excluirProduto(request, token, produtoId);
 });
