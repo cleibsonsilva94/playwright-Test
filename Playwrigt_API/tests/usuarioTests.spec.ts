@@ -3,7 +3,7 @@ import { setupUsuario, teardownUsuario, loginUsuario, buscarUsuario, atualizarUs
 import { userData } from './data/userData';
 
 test.describe('API Usuário', () => {
-  let apiRequestContext: any;
+  let apiRequestContext: any; //Qualquer valor
   let idUsuario: string;
 
   test.beforeEach(async () => {
