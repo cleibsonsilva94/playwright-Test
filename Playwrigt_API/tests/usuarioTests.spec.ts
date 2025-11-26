@@ -18,7 +18,7 @@ test.describe('API Usuário', () => {
 
   test('Login Usuário', async () => {
     const token = await loginUsuario(apiRequestContext, userData.email, userData.senha);
-    expect(token).toBeTruthy();
+    expect(token).toBeTruthy();//verificação confirma que: O login funcionou A API retornou um token válido (não vazio)
   });
 
   test('Buscar usuário por ID', async () => {
