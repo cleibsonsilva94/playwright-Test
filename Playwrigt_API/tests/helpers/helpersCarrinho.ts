@@ -1,5 +1,45 @@
 import { APIRequestContext, expect } from '@playwright/test';
 import { config } from '../config/config';
+import { setupUsuario, loginUsuario } from './helperUser';
+import { cadastrarProduto } from './helpersProduto';
+import { prodData } from '../data/prodData';
+import { carrinhoData } from '../data/carrinhoData';
+
+// Função para preparar ambiente do carrinho
+export async function setupCarrinho(): Promise<{
+  apiRequestContext: APIRequestContext;
+  idUsuario: string;
+  token: string;
+  produtoId1: string;
+  produtoId2: string;
+}> {
+  // 1. Cria usuário e contexto
+  const { apiRequestContext, idUsuario } = await setupUsuario();
+
+  // 2. Login
+  const token = await loginUsuario(apiRequestContext, prodData.email, prodData.senha);
+
+  // 3. Cria dois produtos
+  const produtoId1 = await cadastrarProduto(apiRequestContext, token, {
+    nome: prodData.nomeDoProduto,
+    descricao: prodData.descricao,
+    preco: prodData.preco,
+    quantidade: prodData.quantidade
+  });
+
+  const produtoId2 = await cadastrarProduto(apiRequestContext, token, {
+    nome: prodData.nomeDoProduto2,
+    descricao: prodData.descricao,
+    preco: prodData.preco,
+    quantidade: prodData.quantidade
+  });
+
+  // 4. Atualiza carrinhoData dinamicamente
+  carrinhoData.produtos[0].idProduto = produtoId1;
+  carrinhoData.produtos[1].idProduto = produtoId2;
+
+  return { apiRequestContext, idUsuario, token, produtoId1, produtoId2 };
+}
 
 // Cadastrar carrinho
 export async function cadastrarCarrinho(apiRequestContext: APIRequestContext, token: string, carrinho: any): Promise<string> {
