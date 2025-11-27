@@ -1,4 +1,3 @@
-
 import { test, expect } from '@playwright/test';
 import { setupCarrinho, cadastrarCarrinho, buscarCarrinho, excluirCarrinho } from './helpers/helpersCarrinho';
 import { teardownUsuario } from './helpers/helperUser';
@@ -32,6 +31,7 @@ test.describe('API Carrinho', () => {
   });
 
   test('Cadastrar e buscar carrinho por ID', async () => {
+    
     carrinhoId = await cadastrarCarrinho(apiRequestContext, token, carrinhoData);
     const carrinho = await buscarCarrinho(apiRequestContext, token, carrinhoId);
 
