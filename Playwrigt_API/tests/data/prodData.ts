@@ -4,8 +4,8 @@ function gerarEmailAleatorio() {
   return `${prefixo}${numero}@qa.com.br`;
 }
 export const prodData = {
-  nomeDoProduto: 'Máquina Wahl com fio',
-  nomeDoProduto2: 'Máquina Wahl sem fio',
+  nomeDoProduto: 'Máquina Wahl com fio 2',
+  nomeDoProduto2: 'Máquina Wahl sem fio 1',
   preco: 450, // já como número
   descricao: 'Máquina',
   quantidade: 10,

@@ -31,7 +31,7 @@ test.describe('API Carrinho', () => {
   });
 
   test('Cadastrar e buscar carrinho por ID', async () => {
-    
+
     carrinhoId = await cadastrarCarrinho(apiRequestContext, token, carrinhoData);
     const carrinho = await buscarCarrinho(apiRequestContext, token, carrinhoId);
 

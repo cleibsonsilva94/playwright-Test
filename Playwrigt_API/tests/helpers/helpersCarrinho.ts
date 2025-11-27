@@ -4,6 +4,7 @@ import { setupUsuario, loginUsuario } from './helperUser';
 import { cadastrarProduto } from './helpersProduto';
 import { prodData } from '../data/prodData';
 import { carrinhoData } from '../data/carrinhoData';
+import { userData } from '../data/userData';
 
 // Função para preparar ambiente do carrinho
 export async function setupCarrinho(): Promise<{
@@ -17,7 +18,7 @@ export async function setupCarrinho(): Promise<{
   const { apiRequestContext, idUsuario } = await setupUsuario();
 
   // 2. Login
-  const token = await loginUsuario(apiRequestContext, prodData.email, prodData.senha);
+  const token = await loginUsuario(apiRequestContext, userData.email, userData.senha);
 
   // 3. Cria dois produtos
   const produtoId1 = await cadastrarProduto(apiRequestContext, token, {

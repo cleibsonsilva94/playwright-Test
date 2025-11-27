@@ -4,6 +4,6 @@ export const config = {
     login: '/login',
     usuarios: '/usuarios',
     produtos: '/produtos',
-    carrinhos: '/carrinhos'
+    carrinhos: 'carrinhos/concluir-compra'
   }
 };
