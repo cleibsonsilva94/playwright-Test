@@ -74,3 +74,22 @@ export async function excluirCarrinho(apiRequestContext: APIRequestContext, toke
   const body = await res.json();
   expect(['Registro excluído com sucesso', 'Nenhum registro excluído']).toContain(body.message);
 }
+// Concluir compra (excluir carrinho sem devolver produtos ao estoque)
+export async function concluirCompra(apiRequestContext: APIRequestContext, token: string): Promise<void> {
+  const res = await apiRequestContext.delete(`${config.baseURL}${config.endpoints.carrinhos}`, {
+    headers: { Authorization: token }
+  });
+  expect(res.status()).toBe(200);
+  const body = await res.json();
+  expect(['Registro excluído com sucesso', 'Não foi encontrado carrinho para esse usuário']).toContain(body.message);
+}
+
+// Cancelar compra (excluir carrinho e devolver produtos ao estoque)
+export async function cancelarCompra(apiRequestContext: APIRequestContext, token: string): Promise<void> {
+  const res = await apiRequestContext.delete(`${config.baseURL}${config.endpoints.carrinhos}/cancelar-compra`, {
+    headers: { Authorization: token }
+  });
+  expect(res.status()).toBe(200);
+  const body = await res.json();
+  expect(['Registro excluído com sucesso', 'Não foi encontrado carrinho para esse usuário']).toContain(body.message);
+}
