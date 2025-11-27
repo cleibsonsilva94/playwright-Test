@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
-import { setupUsuario, teardownUsuario, loginUsuario } from '../helpers/helperUser';
-import { cadastrarProduto, excluirProduto } from '../helpers/helpersProduto';
-import { cadastrarCarrinho, buscarCarrinho, excluirCarrinho } from '../helpers/helpersCarrinho';
-import { prodData } from '../data/prodData';
-import { carrinhoData } from '../data/carrinhoData';
+import { setupUsuario, teardownUsuario, loginUsuario } from './helpers/helperUser';
+import { cadastrarProduto, excluirProduto } from './helpers/helpersProduto';
+import { cadastrarCarrinho, buscarCarrinho, excluirCarrinho } from './helpers/helpersCarrinho';
+import { prodData } from './data/prodData';
+import { carrinhoData } from './data/carrinhoData';
 
 test.describe('API Carrinho', () => {
   let apiRequestContext: any;

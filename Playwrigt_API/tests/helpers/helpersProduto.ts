@@ -2,6 +2,7 @@ import { expect, APIRequestContext } from '@playwright/test';
 import { config } from '../config/config';
 import { userData } from '../data/userData';
 
+
 export async function login(request: APIRequestContext): Promise<string> {
   const res = await request.post(`${config.baseURL}${config.endpoints.login}`, {
     data: { email: userData.email, password: userData.senha }

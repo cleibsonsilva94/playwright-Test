@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { setupUsuario, teardownUsuario, loginUsuario, buscarUsuario, atualizarUsuario } from './helpers/userHelper';
+import { setupUsuario, teardownUsuario, loginUsuario, buscarUsuario, atualizarUsuario } from './helpers/helperUser';
 import { userData } from './data/userData';
 
 test.describe('API Usuário', () => {
