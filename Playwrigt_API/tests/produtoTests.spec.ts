@@ -1,10 +1,27 @@
-import { test, expect } from '@playwright/test';
-import { login, cadastrarProduto, buscarProduto, excluirProduto } from './helpers/helpersProduto.js';
+import { test, expect, request } from '@playwright/test';
+import { cadastrarProduto, buscarProduto, excluirProduto } from './helpers/helpersProduto.js';
+import {  setupUsuario, teardownUsuario, loginUsuario, buscarUsuario, atualizarUsuario } from './helpers/helperUser';
 import { prodData } from './data/prodData.js';
+import { userData } from './data/userData';
+
+ let apiRequestContext: any; //Qualquer valor
+ let idUsuario: string;
+
+  test.beforeEach(async () => {
+    const setup = await setupUsuario();
+    apiRequestContext = setup.apiRequestContext;
+    idUsuario = setup.idUsuario;
+  });
+
+  test.afterEach(async () => {
+    await teardownUsuario(apiRequestContext, idUsuario);
+  });
 
 test('Cadastrar e buscar produto por ID', async ({ request }) => {
   // 1. Login
-  const token = await login(request);
+  const token = await loginUsuario(request, userData.email, userData.senha)
+    expect(token).toBeTruthy();
+    headers: { Authorization: token }
 
   // 2. Cadastro
   const produtoId = await cadastrarProduto(request, token, {

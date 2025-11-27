@@ -2,16 +2,6 @@ import { expect, APIRequestContext } from '@playwright/test';
 import { config } from '../config/config';
 import { userData } from '../data/userData';
 
-
-export async function login(request: APIRequestContext): Promise<string> {
-  const res = await request.post(`${config.baseURL}${config.endpoints.login}`, {
-    data: { email: userData.email, password: userData.senha }
-  });
-  expect(res.status()).toBe(200);
-  const body = await res.json();
-  return body.authorization;
-}
-
 export async function cadastrarProduto(request: APIRequestContext, token: string, produto: any): Promise<string> {
   const res = await request.post(`${config.baseURL}${config.endpoints.produtos}`, {
     headers: { Authorization: token },
@@ -38,7 +28,6 @@ export async function excluirProduto(request: APIRequestContext, token: string, 
   const body = await res.json();
   expect(['Registro excluído com sucesso', 'Nenhum registro excluído']).toContain(body.message);
 }
-
 
 
 
