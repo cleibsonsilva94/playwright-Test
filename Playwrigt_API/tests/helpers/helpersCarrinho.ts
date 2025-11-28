@@ -84,7 +84,6 @@ export async function concluirCompra(apiRequestContext: APIRequestContext, token
   expect(['Registro excluído com sucesso', 'Não foi encontrado carrinho para esse usuário']).toContain(body.message);
 }
 
-// Cancelar compra (excluir carrinho e devolver produtos ao estoque)
 export async function cancelarCompra(apiRequestContext: APIRequestContext, token: string): Promise<void> {
   const res = await apiRequestContext.delete(`${config.baseURL}${config.endpoints.carrinhos}/cancelar-compra`, {
     headers: { Authorization: token }
