@@ -1,9 +1,9 @@
 export const config = {
-  baseURL: 'https://serverest.dev',
+  baseURL: '',
   endpoints: {
-    login: '/login',
-    usuarios: '/usuarios',
-    produtos: '/produtos',
-    carrinhos: '/carrinhos'
+    login: '',
+    usuarios: '',
+    produtos: '',
+    carrinhos: ''
   }
 };

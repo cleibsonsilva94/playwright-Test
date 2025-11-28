@@ -5,10 +5,10 @@ function gerarEmailAleatorio() {
 }
 
 export const userData = {
-  nome: 'Michael Jackson',
-  nome2: 'Michael Joseph Jackson',
+  nome: '',
+  nome2: '',
   email: gerarEmailAleatorio(),
   email2: gerarEmailAleatorio(),
-  senha: 'teste',
-  administrador: 'true'
+  senha: '',
+  administrador: ''
 };

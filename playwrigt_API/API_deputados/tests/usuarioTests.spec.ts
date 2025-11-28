@@ -1,7 +1,7 @@
 //ESTUDADO EM 28/11/2025
-import { test, expect } from '@playwright/test';
-import { setupUsuario, teardownUsuario, loginUsuario, buscarUsuario, atualizarUsuario } from './helpers/helperUser';
-import { userData } from './data/userData';
+//import { test, expect } from '@playwright/test';
+// import { setupUsuario, teardownUsuario, loginUsuario, buscarUsuario, atualizarUsuario } from './helpers/helperUser';
+//import { userData } from './data/userData';
 
 test.describe('API Usuário', () => {
   let apiRequestContext: any; //Qualquer valor
@@ -17,19 +17,19 @@ test.describe('API Usuário', () => {
     await teardownUsuario(apiRequestContext, idUsuario);
   });
 
-  test('Login Usuário', async () => {
+  test('', async () => {
     const token = await loginUsuario(apiRequestContext, userData.email, userData.senha);
     expect(token).toBeTruthy();//verificação confirma que: O login funcionou A API retornou um token válido (não vazio)
   });
 
-  test('Buscar usuário por ID', async () => {
+  test('', async () => {
     const usuario = await buscarUsuario(apiRequestContext, idUsuario);
     expect(usuario.nome).toBe(userData.nome);
     expect(usuario.email).toBe(userData.email);
     expect(usuario._id).toBe(idUsuario);
   });
 
-  test('Atualização de Usuário', async () => {
+  test('', async () => {
     await atualizarUsuario(apiRequestContext, idUsuario, {
       nome: userData.nome2,
       email: userData.email2,
