@@ -1,5 +1,5 @@
 export const config = {
-  baseURL: 'https://dados.gov.br',
+  baseURL: 'https://dadosabertos.camara.leg.br/api/v2',
   endpoints: {
     deputados: '/deputados',
     usuarios: '',
