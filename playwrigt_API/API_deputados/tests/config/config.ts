@@ -1,7 +1,7 @@
 export const config = {
-  baseURL: '',
+  baseURL: 'https://dados.gov.br',
   endpoints: {
-    login: '',
+    deputados: '/deputados',
     usuarios: '',
     produtos: '',
     carrinhos: ''

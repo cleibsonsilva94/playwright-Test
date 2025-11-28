@@ -4,11 +4,11 @@ function gerarEmailAleatorio() {
   return `${prefixo}${numero}@qa.com.br`;
 }
 
-export const userData = {
-  nome: '',
+export const deputadosData = {
+  nome: 'Eduardo',
   nome2: '',
   email: gerarEmailAleatorio(),
   email2: gerarEmailAleatorio(),
-  senha: '',
-  administrador: ''
+  estado: 'PE',
+  Partido: 'PT'
 };
