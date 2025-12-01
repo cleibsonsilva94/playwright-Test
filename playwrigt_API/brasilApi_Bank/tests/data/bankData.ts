@@ -5,8 +5,8 @@ function gerarEmailAleatorio() {
 }
 
 export const bankData = {
-  nome: '',
-  nome2: '',
+  nome: 'SANTINVEST S.A. - CFI',
+  cod: '539',
   email: gerarEmailAleatorio(),
   email2: gerarEmailAleatorio(),
   senha: '',
