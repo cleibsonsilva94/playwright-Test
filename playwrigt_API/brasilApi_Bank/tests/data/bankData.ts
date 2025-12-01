@@ -4,7 +4,7 @@ function gerarEmailAleatorio() {
   return `${prefixo}${numero}@qa.com.br`;
 }
 
-export const userData = {
+export const bankData = {
   nome: '',
   nome2: '',
   email: gerarEmailAleatorio(),

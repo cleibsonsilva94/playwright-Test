@@ -1,10 +1,14 @@
 import { expect, APIRequestContext, request } from '@playwright/test';
 import { config } from '../config/config';
-import { userData } from '../data/bankData';
+import { bankData } from '../data/bankData';
 
 
-export async function setupUsuario(): Promise<{ apiRequestContext: APIRequestContext; bank: string }> { 
+export async function bankFull(): Promise<{apiRequestContext: APIRequestContext}> {
   const apiRequestContext = await request.newContext(); 
-  const res = await apiRequestContext.post(`${config.baseURL}${config.endpoints.usuarios}`, {  /
-      
+  const res = await apiRequestContext.get(`${config.baseURL}${config.endpoints.bank}`, {
   });
+
+  expect(res.status()).toBe(200);
+  const body = await res.json();  
+  return {apiRequestContext};
+}
