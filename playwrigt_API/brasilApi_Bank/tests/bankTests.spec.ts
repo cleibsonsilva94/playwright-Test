@@ -1,18 +1,36 @@
 import { test, expect } from '@playwright/test';
-import { bankFull, byCodeBank, invalidCode } from './helpers/helperBank';
+import { getAllBanks, getBankByCode, getBankInvalidCode } from './helpers/helperBank';
 import { bankData } from './data/bankData';
 
-test('Todos os bancos', async () => {
-  const banks = await bankFull();
-  expect(banks).toBeTruthy();
-});
+test.describe('Testes de API - Bancos', () => {
 
-test('Banco por código', async () => {
-  const SpecificBank = await byCodeBank(bankData.cod);
-  expect(SpecificBank.nome).toBe(bankData.nome);
-});
+  test('Deve retornar lista completa de bancos com status 200', async ({ request }) => { 
+    const res = await getAllBanks(request);
+    expect(res.status()).toBe(200);
 
-test('Buscar com código inexistente', async () => {
-  const specificBank = await invalidCode(bankData.cod0);
-  expect(specificBank.returnAPI).toBe(bankData.message);
+    const body = await res.json();
+    expect(Array.isArray(body)).toBeTruthy();
+    expect(body.length).toBeGreaterThan(0);
+    expect(body[10]).toHaveProperty('name');
+  });
+
+  test('Deve retornar banco específico pelo código', async ({ request }) => {
+    const res = await getBankByCode(request, bankData.cod);
+    expect(res.status()).toBe(200);
+
+    const body = await res.json();
+    expect(body).toHaveProperty('name');
+    expect(typeof body.name).toBe('string');
+    expect(body.name).toBe('SANTINVEST S.A. - CFI');
+  });
+
+  test('Deve retornar erro ao buscar código inexistente', async ({ request }) => {
+    const res = await getBankInvalidCode(request, bankData.cod0);
+    expect(res.status()).toBe(404);
+
+    const body = await res.json();
+    expect(body).toHaveProperty('message');
+    expect(body.message).toBe('Código bancário não encontrado');
+  });
+
 });

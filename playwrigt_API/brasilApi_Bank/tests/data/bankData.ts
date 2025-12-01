@@ -5,12 +5,10 @@ function gerarEmailAleatorio() {
 }
 
 export const bankData = {
-  nome: 'SANTINVEST S.A. - CFI',
   cod: '539',
   cod0: '00',
   email: gerarEmailAleatorio(),
   email2: gerarEmailAleatorio(),
-  message: 'Código bancário não encontrado',
   senha: '',
   administrador: ''
 };
