@@ -2,16 +2,17 @@ import { expect, APIRequestContext, request } from '@playwright/test';
 import { config } from '../config/config';
 import { deputadosData } from '../data/deputadosData';
 
-
-export async function porNome(): Promise<{ apiRequestContext: APIRequestContext; nome: string }> { 
-  const apiRequestContext = await request.newContext(); 
-  const res = await apiRequestContext.get(`${config.baseURL}${config.endpoints.deputados}`, { 
-      data: {
-      nome: deputadosData.nome
-      }
+export async function porNome(): Promise<{ apiRequestContext: APIRequestContext; nome: string }> {
+  const apiRequestContext = await request.newContext();
+  
+  const res = await apiRequestContext.get(`${config.baseURL}${config.endpoints.deputados}`, {
+    params: { nome: deputadosData.nome }
   });
 
-  expect(res.status()).toBe(201); 
+  expect(res.status()).toBe(200);
+
   const body = await res.json();
-  return { apiRequestContext, nome: body.nome };
+  const nomeDeputado = body.dados[0]?.nome || '';
+
+  return { apiRequestContext, nome: nomeDeputado };
 }

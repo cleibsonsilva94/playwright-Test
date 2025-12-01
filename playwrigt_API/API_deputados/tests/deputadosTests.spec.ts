@@ -7,8 +7,10 @@ test.describe('API Deputados', () => {
   let apiRequestContext: any; //Qualquer valor
   let parlamentares: string;
 
-  test('Buscar deputados por nome', async () => {
-    const parlamentares = await porNome();  
-    expect(parlamentares.nome).toBe(deputadosData.nome);
-  });
+  
+test('Buscar deputados por nome', async () => {
+  const parlamentares = await porNome();
+  expect(parlamentares.nome).toBe(deputadosData.nome);
+});
+
 });
