@@ -67,6 +67,15 @@ test.describe('Testes de API - IBGE', () => {
     expect(body).toHaveProperty('nome');
     expect(body.nome).toBe('Pernambuco');
 
-  });
+    });
 
-});
+    test('Não deve retornar informações de um estado (PE)', async ({ request }) => { 
+    const res = await informationFromAState(request, brasilAPIData.UFerro);
+    expect(res.status()).toBe(404);
+
+    const body = await res.json();
+    expect(body).toHaveProperty('name');
+    expect(body.message).toBe('UF não encontrada.');
+
+    });
+  });
