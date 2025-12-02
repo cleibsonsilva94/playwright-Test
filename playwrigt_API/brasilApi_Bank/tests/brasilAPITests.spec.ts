@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { getAllBanks, getBankByCode, getBankInvalidCode, allMunicipalitiesState } from './helpers/helperBrasilAPI';
+import { getAllBanks, getBankByCode, getBankInvalidCode, allMunicipalitiesState, InformationFromTheStates, informationFromAState } from './helpers/helperBrasilAPI';
 import { brasilAPIData } from './data/brasilAPIData';
 
 test.describe('Testes de API - Bancos', () => {
@@ -43,8 +43,29 @@ test.describe('Testes de API - IBGE', () => {
 
     const body = await res.json();
     expect(Array.isArray(body)).toBeTruthy();
-    expect(body.length).toBeGreaterThan(0);
-    expect(body[10]).toHaveProperty('nome');
+    expect(body.length).toBeGreaterThan(15);
+    expect(body[15]).toHaveProperty('nome');
+
+  });
+
+  test('Deve retornar informações de todos os estados', async ({ request }) => { 
+    const res = await InformationFromTheStates(request, brasilAPIData.All);
+    expect(res.status()).toBe(200);
+
+    const body = await res.json();
+    expect(Array.isArray(body)).toBeTruthy();
+    expect(body.length).toBeGreaterThan(26);
+    expect(body[26]).toHaveProperty('nome');
+
+  });
+
+   test('Deve retornar informações de um estado (PE)', async ({ request }) => { 
+    const res = await informationFromAState(request, brasilAPIData.UF);
+    expect(res.status()).toBe(200);
+
+    const body = await res.json();
+    expect(body).toHaveProperty('nome');
+    expect(body.nome).toBe('Pernambuco');
 
   });
 
