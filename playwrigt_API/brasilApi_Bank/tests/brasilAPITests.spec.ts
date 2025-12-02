@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { getAllBanks, getBankByCode, getBankInvalidCode } from './helpers/helperBank';
-import { bankData } from './data/bankData';
+import { getAllBanks, getBankByCode, getBankInvalidCode, allMunicipalitiesState } from './helpers/helperBrasilAPI';
+import { brasilAPIData } from './data/brasilAPIData';
 
 test.describe('Testes de API - Bancos', () => {
 
@@ -15,7 +15,7 @@ test.describe('Testes de API - Bancos', () => {
   });
 
   test('Deve retornar banco específico pelo código', async ({ request }) => {
-    const res = await getBankByCode(request, bankData.cod);
+    const res = await getBankByCode(request, brasilAPIData.cod);
     expect(res.status()).toBe(200);
 
     const body = await res.json();
@@ -25,12 +25,27 @@ test.describe('Testes de API - Bancos', () => {
   });
 
   test('Deve retornar erro ao buscar código inexistente', async ({ request }) => {
-    const res = await getBankInvalidCode(request, bankData.cod0);
+    const res = await getBankInvalidCode(request, brasilAPIData.cod0);
     expect(res.status()).toBe(404);
 
     const body = await res.json();
     expect(body).toHaveProperty('message');
     expect(body.message).toBe('Código bancário não encontrado');
+  });
+
+});
+
+test.describe('Testes de API - IBGE', () => {
+
+  test('Deve retornar informações todos os municípios de uma unidade federativa (PE)', async ({ request }) => { 
+    const res = await allMunicipalitiesState(request, brasilAPIData.UF);
+    expect(res.status()).toBe(200);
+
+    const body = await res.json();
+    expect(Array.isArray(body)).toBeTruthy();
+    expect(body.length).toBeGreaterThan(0);
+    expect(body[10]).toHaveProperty('nome');
+
   });
 
 });

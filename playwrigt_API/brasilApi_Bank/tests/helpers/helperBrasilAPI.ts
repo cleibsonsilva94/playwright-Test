@@ -12,3 +12,7 @@ export async function getBankByCode(api: APIRequestContext, codBank: string) {
 export async function getBankInvalidCode(api: APIRequestContext, codBank: string) {
   return await api.get(`${config.baseURL}${config.endpoints.bank}/${codBank}`);
 }
+
+export async function allMunicipalitiesState(api: APIRequestContext, siglaUF: string) {
+  return await api.get(`${config.BaseURLIBGE}${config.endpoints.municipios}/${siglaUF}`);
+}

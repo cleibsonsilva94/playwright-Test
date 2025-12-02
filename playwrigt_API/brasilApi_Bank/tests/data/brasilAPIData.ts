@@ -4,9 +4,10 @@ function gerarEmailAleatorio() {
   return `${prefixo}${numero}@qa.com.br`;
 }
 
-export const bankData = {
+export const brasilAPIData = {
   cod: '539',
   cod0: '00',
+  UF: 'PE',
   email: gerarEmailAleatorio(),
   email2: gerarEmailAleatorio(),
   senha: '',
