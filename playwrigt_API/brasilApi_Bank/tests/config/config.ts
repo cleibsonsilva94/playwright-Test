@@ -10,6 +10,9 @@ export const config = {
     bankCode1: '1',
     usuarios: '',
     produtos: '',
-    carrinhos: ''
+    carrinhos: '',
+    //Car
+    carr: '/fipe/marcas/v1/'
   }
 };
+

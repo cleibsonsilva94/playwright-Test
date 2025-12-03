@@ -1,7 +1,7 @@
 
 import { test, expect, APIRequestContext, APIResponse } from '@playwright/test';
-import { getAllBanks, getBankByCode, getBankInvalidCode, allMunicipalitiesState, informationFromAState, InformationFromTheStates, validateResponse, validateStateStructure, validateBankStructure } from './helpers/helperBrasilAPI';
-import { brasilAPIData } from './data/brasilAPIData';
+import { getAllBanks, getBankByCode, getBankInvalidCode, allMunicipalitiesState, informationFromAState, InformationFromTheStates, validateResponse, validateStateStructure, validateBankStructure, allCars, validateCarrStructure } from './helpers/helperBrasilAPI';
+import { brasilAPIBank, brasilAPIUF, brasilAPICarr } from './data/brasilAPIData';
 
 // ===============================
 // TESTES PARA ENDPOINT DE BANCOS
@@ -19,14 +19,14 @@ test.describe('Banco API', () => {
   });
 
   test('Deve retornar banco específico', async ({ request }: { request: APIRequestContext }) => {
-    const res: APIResponse = await getBankByCode(request, brasilAPIData.codBank);
+    const res: APIResponse = await getBankByCode(request, brasilAPIBank.codBank);
     const body: Record<string, any> = await validateResponse(res);
 
     expect(body.fullName).toBe('Banco do Brasil S.A.');
   });
 
   test('Deve retornar erro para código inexistente', async ({ request }: { request: APIRequestContext }) => {
-    const res: APIResponse = await getBankInvalidCode(request, brasilAPIData.codBank0);
+    const res: APIResponse = await getBankInvalidCode(request, brasilAPIBank.codBank0);
     const body: Record<string, any> = await validateResponse(res, 404);
 
     expect(body.message).toBe('Código bancário não encontrado');
@@ -41,7 +41,7 @@ test.describe('Banco API', () => {
 test.describe('IBGE API', () => {
 
   test('Deve retornar lista completa de estados brasileiros', async ({ request }: { request: APIRequestContext }) => {
-    const res: APIResponse = await InformationFromTheStates(request, brasilAPIData.All);
+    const res: APIResponse = await InformationFromTheStates(request, brasilAPIUF.all);
     const body: any[] = await validateResponse(res);
 
     expect(Array.isArray(body)).toBeTruthy();
@@ -50,7 +50,7 @@ test.describe('IBGE API', () => {
   });
 
   test('Deve retornar municípios de PE', async ({ request }: { request: APIRequestContext }) => {
-    const res: APIResponse = await allMunicipalitiesState(request, brasilAPIData.UF);
+    const res: APIResponse = await allMunicipalitiesState(request, brasilAPIUF.UF);
     const body: any[] = await validateResponse(res);
 
     expect(body.length).toBeGreaterThan(15);
@@ -58,7 +58,7 @@ test.describe('IBGE API', () => {
   });
 
   test('Deve retornar erro para UF inválida', async ({ request }: { request: APIRequestContext }) => {
-    const res: APIResponse = await informationFromAState(request, brasilAPIData.UFerro);
+    const res: APIResponse = await informationFromAState(request, brasilAPIUF.UFerro);
     const body: Record<string, any> = await validateResponse(res, 404);
 
     expect(body.message).toBe('UF não encontrada.');
@@ -66,11 +66,22 @@ test.describe('IBGE API', () => {
 
   test('Deve responder em menos de 2 segundos', async ({ request }: { request: APIRequestContext }) => {
     const start: number = Date.now();
-    const res: APIResponse = await informationFromAState(request, brasilAPIData.UF);
+    const res: APIResponse = await informationFromAState(request, brasilAPIUF.UF);
     await validateResponse(res);
     const duration: number = Date.now() - start;
 
     expect(duration).toBeLessThan(2000);
   });
 
+});
+test.describe('FIPE - API', () => {
+
+ test('Deve retornar lista completa de todos os tipos de veículos', async ({ request }: { request: APIRequestContext }) => {
+    const res: APIResponse = await allCars(request, brasilAPICarr.all);
+    const body: any[] = await validateResponse(res);
+
+    expect(Array.isArray(body)).toBeTruthy();
+    validateCarrStructure(body[0]);
+    expect(body.length).toBeGreaterThan(26);
+  });
 });

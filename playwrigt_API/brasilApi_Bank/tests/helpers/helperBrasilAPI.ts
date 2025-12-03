@@ -27,13 +27,17 @@ export async function informationFromAState(api: APIRequestContext, siglaUF: str
   return await api.get(`${config.BaseURLIBGE3}/${siglaUF}`);
 }
 
+// FIPE +
+export async function allCars(api: APIRequestContext, car: string) {
+  return await api.get(`${config.baseURL}${config.endpoints.carr}/${car}`);
+}
+
 // IBGE + Bancos
  export async function validateResponse(res: APIResponse, expectedStatus: number = 200): Promise<any> {
   expect(res.status()).toBe(expectedStatus);
   expect(res.headers()['content-type']).toContain('application/json');
   return await res.json();
 }
-
 
 export async function validateStateStructure(state: Record<string, any>) {
   expect(state).toEqual(expect.objectContaining({
@@ -50,5 +54,12 @@ export async function validateBankStructure(bank: Record<string, any>) {
   expect(bank).toEqual(expect.objectContaining({
     name: expect.any(String),
     code: expect.any(Number)
+  }));
+}
+
+export async function validateCarrStructure(bank: Record<string, any>) {
+  expect(bank).toEqual(expect.objectContaining({
+    nome: expect.any(String),
+    valor: expect.any(String)
   }));
 }

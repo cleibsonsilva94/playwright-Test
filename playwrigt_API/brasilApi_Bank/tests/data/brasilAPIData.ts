@@ -4,14 +4,31 @@ function gerarEmailAleatorio() {
   return `${prefixo}${numero}@qa.com.br`;
 }
 
-export const brasilAPIData = {
+export const brasilAPIBank = {
   codBank: '001',
   codBank0: '00',
-  UF: 'PE',
-  UFerro: 'LL',
-  All: '',
   email: gerarEmailAleatorio(),
   email2: gerarEmailAleatorio(),
   senha: '',
   administrador: ''
 };
+
+export const brasilAPIUF = {
+  UF: 'PE',
+  UFerro: 'LL',
+  all: '',
+  email: gerarEmailAleatorio(),
+  email2: gerarEmailAleatorio(),
+  senha: '',
+  administrador: ''
+}
+
+export const brasilAPICarr = {
+  Carr: 'PE',
+  carr2: 'LL',
+  all: '',
+  email: gerarEmailAleatorio(),
+  email2: gerarEmailAleatorio(),
+  senha: '',
+  administrador: ''
+}
