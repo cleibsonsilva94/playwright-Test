@@ -1,13 +1,6 @@
 import { test, expect, APIRequestContext, APIResponse } from '@playwright/test';
-import { getAllBanks, getBankByCode, getBankInvalidCode, allMunicipalitiesState, informationFromAState, InformationFromTheStates } from './helpers/helperBrasilAPI';
+import { getAllBanks, getBankByCode, getBankInvalidCode, allMunicipalitiesState, informationFromAState, InformationFromTheStates, validateResponse } from './helpers/helperBrasilAPI';
 import { brasilAPIData } from './data/brasilAPIData';
-
-// ✅ Função utilitária com tipagem
-async function validateResponse(res: APIResponse, expectedStatus: number = 200): Promise<any> {
-  expect(res.status()).toBe(expectedStatus);
-  expect(res.headers()['content-type']).toContain('application/json');
-  return await res.json();
-}
 
 test.describe('Testes de API - Bancos', () => {
 

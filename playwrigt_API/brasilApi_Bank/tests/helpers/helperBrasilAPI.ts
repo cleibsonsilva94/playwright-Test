@@ -1,4 +1,4 @@
-import { APIRequestContext } from '@playwright/test';
+import { APIRequestContext, expect, APIResponse } from '@playwright/test';
 import { config } from '../config/config';
 
 export async function getAllBanks(api: APIRequestContext) {
@@ -23,4 +23,10 @@ export async function InformationFromTheStates(api: APIRequestContext, siglaUF: 
 
 export async function informationFromAState(api: APIRequestContext, siglaUF: string) {
   return await api.get(`${config.BaseURLIBGE3}/${siglaUF}`);
+}
+
+ export async function validateResponse(res: APIResponse, expectedStatus: number = 200): Promise<any> {
+  expect(res.status()).toBe(expectedStatus);
+  expect(res.headers()['content-type']).toContain('application/json');
+  return await res.json();
 }
