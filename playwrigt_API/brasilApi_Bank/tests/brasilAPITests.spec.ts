@@ -1,8 +1,13 @@
+
 import { test, expect, APIRequestContext, APIResponse } from '@playwright/test';
-import { getAllBanks, getBankByCode, getBankInvalidCode, allMunicipalitiesState, informationFromAState, InformationFromTheStates, validateResponse} from './helpers/helperBrasilAPI';
+import { getAllBanks, getBankByCode, getBankInvalidCode, allMunicipalitiesState, informationFromAState, InformationFromTheStates, validateResponse, validateStateStructure, validateBankStructure } from './helpers/helperBrasilAPI';
 import { brasilAPIData } from './data/brasilAPIData';
 
-test.describe('Testes de API - Bancos', () => {
+// ===============================
+// TESTES PARA ENDPOINT DE BANCOS
+// ===============================
+
+test.describe('Banco API', () => {
 
   test('Deve retornar lista completa de bancos', async ({ request }: { request: APIRequestContext }) => {
     const res: APIResponse = await getAllBanks(request);
@@ -10,11 +15,7 @@ test.describe('Testes de API - Bancos', () => {
 
     expect(Array.isArray(body)).toBeTruthy();
     expect(body.length).toBeGreaterThan(0);
-    expect(body[20]).toHaveProperty('name');
-    expect(body[20]).toEqual(expect.objectContaining({
-      name: expect.any(String),
-      code: expect.any(Number)
-    }));
+    validateBankStructure(body[0]);
   });
 
   test('Deve retornar banco específico', async ({ request }: { request: APIRequestContext }) => {
@@ -33,22 +34,19 @@ test.describe('Testes de API - Bancos', () => {
 
 });
 
+// ==========================
+// TESTES PARA ENDPOINT IBGE
+// ==========================
 
+test.describe('IBGE API', () => {
 
-test.describe('Testes de API - IBGE', () => {
-
-  test('Deve retornar lista completa de estados', async ({ request }: { request: APIRequestContext }) => {
+  test('Deve retornar lista completa de estados brasileiros', async ({ request }: { request: APIRequestContext }) => {
     const res: APIResponse = await InformationFromTheStates(request, brasilAPIData.All);
     const body: any[] = await validateResponse(res);
 
-     expect(body).toEqual(expect.objectContaining({
-          id: expect.any(Number),
-          sigla: expect.any(String),
-          nome: expect.any(String),
-          regiao: expect.objectContaining({
-            nome: expect.any(String)
-          })
-      }));
+    expect(Array.isArray(body)).toBeTruthy();
+    validateStateStructure(body[0]);
+    expect(body.length).toBeGreaterThan(26);
   });
 
   test('Deve retornar municípios de PE', async ({ request }: { request: APIRequestContext }) => {
@@ -56,15 +54,13 @@ test.describe('Testes de API - IBGE', () => {
     const body: any[] = await validateResponse(res);
 
     expect(body.length).toBeGreaterThan(15);
-    expect(body[15]).toHaveProperty('nome');
-
+    expect(body[0]).toHaveProperty('nome');
   });
 
   test('Deve retornar erro para UF inválida', async ({ request }: { request: APIRequestContext }) => {
     const res: APIResponse = await informationFromAState(request, brasilAPIData.UFerro);
     const body: Record<string, any> = await validateResponse(res, 404);
 
-    expect(body).toHaveProperty('message');
     expect(body.message).toBe('UF não encontrada.');
   });
 
@@ -73,6 +69,7 @@ test.describe('Testes de API - IBGE', () => {
     const res: APIResponse = await informationFromAState(request, brasilAPIData.UF);
     await validateResponse(res);
     const duration: number = Date.now() - start;
+
     expect(duration).toBeLessThan(2000);
   });
 

@@ -33,3 +33,22 @@ export async function informationFromAState(api: APIRequestContext, siglaUF: str
   expect(res.headers()['content-type']).toContain('application/json');
   return await res.json();
 }
+
+
+export async function validateStateStructure(state: Record<string, any>) {
+  expect(state).toEqual(expect.objectContaining({
+    id: expect.any(Number),
+    sigla: expect.any(String),
+    nome: expect.any(String),
+    regiao: expect.objectContaining({
+      nome: expect.any(String)
+    })
+  }));
+}
+
+export async function validateBankStructure(bank: Record<string, any>) {
+  expect(bank).toEqual(expect.objectContaining({
+    name: expect.any(String),
+    code: expect.any(Number)
+  }));
+}
