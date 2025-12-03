@@ -5,8 +5,8 @@ function gerarEmailAleatorio() {
 }
 
 export const brasilAPIData = {
-  cod: '539',
-  cod0: '00',
+  codBank: '001',
+  codBank0: '00',
   UF: 'PE',
   UFerro: 'LL',
   All: '',
