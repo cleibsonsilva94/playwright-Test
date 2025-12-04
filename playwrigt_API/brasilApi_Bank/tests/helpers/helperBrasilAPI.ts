@@ -43,6 +43,10 @@ export async function preCars(api: APIRequestContext, carVal: string) {
   return await res.json();
 }
 
+export async function objects(api: APIRequestContext, objects: string) {
+  return await api.get(`${config.Restful}${config.endpoints.allObjects}/${objects}`);
+}
+
 export async function validateStateStructure(state: Record<string, any>) {
   expect(state).toEqual(expect.objectContaining({
     id: expect.any(Number),

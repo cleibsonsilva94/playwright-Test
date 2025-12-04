@@ -38,3 +38,13 @@ export const brasilAPICarr = {
   senha: '',
   administrador: ''
 }
+
+export const restful = {
+  allObjects: '',
+  objects1: '',
+  object2: '',
+  email: gerarEmailAleatorio(),
+  email2: gerarEmailAleatorio(),
+  senha: '',
+  administrador: ''
+}
