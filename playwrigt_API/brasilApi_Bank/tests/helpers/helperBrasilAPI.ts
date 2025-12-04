@@ -32,6 +32,10 @@ export async function allCars(api: APIRequestContext, car: string) {
   return await api.get(`${config.baseURL}${config.endpoints.carr}/${car}`);
 }
 
+export async function preCars(api: APIRequestContext, carVal: string) {
+  return await api.get(`${config.baseURL}${config.endpoints.carrPreç}/${carVal}`);
+}
+
 // IBGE + Bancos
  export async function validateResponse(res: APIResponse, expectedStatus: number = 200): Promise<any> {
   expect(res.status()).toBe(expectedStatus);

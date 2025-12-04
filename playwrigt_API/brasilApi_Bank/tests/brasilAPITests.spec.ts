@@ -1,6 +1,6 @@
 
 import { test, expect, APIRequestContext, APIResponse } from '@playwright/test';
-import { getAllBanks, getBankByCode, getBankInvalidCode, allMunicipalitiesState, informationFromAState, InformationFromTheStates, validateResponse, validateStateStructure, validateBankStructure, allCars, validateCarrStructure } from './helpers/helperBrasilAPI';
+import { getAllBanks, getBankByCode, getBankInvalidCode, allMunicipalitiesState, informationFromAState, InformationFromTheStates, validateResponse, validateStateStructure, validateBankStructure, allCars, validateCarrStructure, preCars } from './helpers/helperBrasilAPI';
 import { brasilAPIBank, brasilAPIUF, brasilAPICarr } from './data/brasilAPIData';
 
 // ===============================
@@ -110,6 +110,17 @@ test.describe('FIPE - API', () => {
     expect(Array.isArray(body)).toBeTruthy();
     validateCarrStructure(body[0]);
     expect(body.length).toBeGreaterThan(26);
+  });
+
+   test('Deve retornar valor de carro com base no código fipe (Creta)', async ({ request }: { request: APIRequestContext }) => {
+    const res: APIResponse = await preCars(request, brasilAPICarr.codigoFipe2Veloster);
+    const body: Record<string, any> = await validateResponse(res);  
+
+    expect(Array.isArray(body)).toBeTruthy();
+    expect(body.length).toBeGreaterThan(0);
+    const item = body[0];
+    expect(item.modelo).toBe('Veloster 1.6 16V  140cv Aut.');
+
   });
 
 });

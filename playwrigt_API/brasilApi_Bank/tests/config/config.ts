@@ -12,7 +12,8 @@ export const config = {
     produtos: '',
     carrinhos: '',
     //Car
-    carr: '/fipe/marcas/v1/'
+    carr: '/fipe/marcas/v1/',
+    carrPreç: '/fipe/preco/v1/'
   }
 };
 
