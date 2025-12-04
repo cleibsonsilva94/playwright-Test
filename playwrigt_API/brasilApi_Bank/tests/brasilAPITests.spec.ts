@@ -84,4 +84,14 @@ test.describe('FIPE - API', () => {
     validateCarrStructure(body[0]);
     expect(body.length).toBeGreaterThan(26);
   });
+
+  test('Deve retornar o valor de um carro especifico (CRETA)', async ({ request }: { request: APIRequestContext }) => {
+    const res: APIResponse = await allCars(request, brasilAPICarr.Carr);
+    const body: any[] = await validateResponse(res);
+
+    expect(Array.isArray(body)).toBeTruthy();
+    validateCarrStructure(body[0]);
+    expect(body.length).toBeGreaterThan(26);
+  });
+
 });
