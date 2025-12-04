@@ -24,7 +24,10 @@ export const brasilAPIUF = {
 }
 
 export const brasilAPICarr = {
-  Carr: 'carros',
+  allVeiculos: '',
+  carr: 'carros',
+  motos: 'motos',
+  caminhoes:'caminhoes',
   carr2: 'LL',
   all: '',
   email: gerarEmailAleatorio(),

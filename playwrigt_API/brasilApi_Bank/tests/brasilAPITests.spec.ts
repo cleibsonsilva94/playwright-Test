@@ -76,8 +76,8 @@ test.describe('IBGE API', () => {
 });
 test.describe('FIPE - API', () => {
 
- test('Deve retornar lista completa de todos os tipos de veículos', async ({ request }: { request: APIRequestContext }) => {
-    const res: APIResponse = await allCars(request, brasilAPICarr.all);
+ test('Deve retornar lista completa de todos os tipos de veículos (Carros, Motos e caminhoes)', async ({ request }: { request: APIRequestContext }) => {
+    const res: APIResponse = await allCars(request, brasilAPICarr.allVeiculos);
     const body: any[] = await validateResponse(res);
 
     expect(Array.isArray(body)).toBeTruthy();
@@ -85,8 +85,26 @@ test.describe('FIPE - API', () => {
     expect(body.length).toBeGreaterThan(26);
   });
 
-  test('Deve retornar o valor de um carro especifico (CRETA)', async ({ request }: { request: APIRequestContext }) => {
-    const res: APIResponse = await allCars(request, brasilAPICarr.Carr);
+  test('Deve retornar uma lista completa de motocicletas', async ({ request }: { request: APIRequestContext }) => {
+    const res: APIResponse = await allCars(request, brasilAPICarr.motos);
+    const body: any[] = await validateResponse(res);
+
+    expect(Array.isArray(body)).toBeTruthy();
+    validateCarrStructure(body[0]);
+    expect(body.length).toBeGreaterThan(26);
+  });
+
+  test('Deve retornar uma lista completa de caminhoes', async ({ request }: { request: APIRequestContext }) => {
+    const res: APIResponse = await allCars(request, brasilAPICarr.caminhoes);
+    const body: any[] = await validateResponse(res);
+
+    expect(Array.isArray(body)).toBeTruthy();
+    validateCarrStructure(body[0]);
+    expect(body.length).toBeGreaterThan(26);
+  });
+
+  test('Deve retornar uma lista completa de carros', async ({ request }: { request: APIRequestContext }) => {
+    const res: APIResponse = await allCars(request, brasilAPICarr.carr);
     const body: any[] = await validateResponse(res);
 
     expect(Array.isArray(body)).toBeTruthy();
