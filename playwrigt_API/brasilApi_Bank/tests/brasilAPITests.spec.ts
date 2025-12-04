@@ -74,6 +74,12 @@ test.describe('IBGE API', () => {
   });
 
 });
+
+
+// ==========================
+// TESTES PARA ENDPOINT FIPE
+// ==========================
+
 test.describe('FIPE - API', () => {
 
  test('Deve retornar lista completa de todos os tipos de veículos (Carros, Motos e caminhoes)', async ({ request }: { request: APIRequestContext }) => {
