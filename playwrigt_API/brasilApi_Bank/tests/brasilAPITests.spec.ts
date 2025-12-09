@@ -1,6 +1,6 @@
 
 import { test, expect, APIRequestContext, APIResponse } from '@playwright/test';
-import { getAllBanks, getBankByCode, getBankInvalidCode, allMunicipalitiesState, informationFromAState, InformationFromTheStates, validateResponse, validateStateStructure, validateBankStructure, allCars, validateCarrStructure, preCars, objects } from './helpers/helperBrasilAPI';
+import { getAllBanks, getBankByCode, getBankInvalidCode, allMunicipalitiesState, informationFromAState, InformationFromTheStates, validateResponse, validateStateStructure, validateBankStructure, allCars, validateCarrStructure, preCars, objects, validateObjectsStructure } from './helpers/helperBrasilAPI';
 import { brasilAPIBank, brasilAPIUF, brasilAPICarr, restful } from './data/brasilAPIData';
 
 // ===============================
@@ -134,12 +134,11 @@ test.describe('FIPE - API', () => {
 test.describe('Restful - API', () => {
 
     test('Deve retornar uma lista de objetos', async ({ request }: { request: APIRequestContext }) => {
-    const res: APIResponse = await objects(request, restful.allObjects);
-    const body: Record<string, any> = await validateResponse(res);
-
-    const item = body[0];
-    expect(item.nome).toBe('Google Pixel 6 Pro');
-
+      const res: APIResponse = await objects(request, restful.allObjects);
+      const body: Record<string, any> = await validateResponse(res);
+      validateObjectsStructure((body[0]));
+      const item = body[0];
+      expect(item.name).toBe('Google Pixel 6 Pro');                                                                                                                                                                                                
   });
  
 });
