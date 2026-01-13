@@ -36,9 +36,14 @@ export async function preCars(api: APIRequestContext, carVal: string) {
   return await api.get(`${config.baseURL}${config.endpoints.carrPreç}/${carVal}`);
 }
 
-// API Fipe
+// API objects
 export async function objects(api: APIRequestContext, objects: string) {
   return await api.get(`${config.Restful}${config.endpoints.allObjects}${objects}`);
+}
+
+// API objects
+export async function objectsById(api: APIRequestContext, IdObjects: string) {
+  return await api.get(`${config.Restful}${config.endpoints.objectsById}${IdObjects}`);
 }
 
 // validação de retorno

@@ -1,3 +1,4 @@
+import { objectsById } from "../helpers/helperBrasilAPI";
 
 export const config = {
   baseURL: 'https://brasilapi.com.br/api',
@@ -16,6 +17,7 @@ export const config = {
     carr: '/fipe/marcas/v1/',
     carrPreç: '/fipe/preco/v1/',
     //objects
-    allObjects:'objects'
+    allObjects:'objects',
+    objectsById:'?id={IdObjects}'
   }
 };

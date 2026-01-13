@@ -1,6 +1,6 @@
 
 import { test, expect, APIRequestContext, APIResponse } from '@playwright/test';
-import { getAllBanks, getBankByCode, getBankInvalidCode, allMunicipalitiesState, informationFromAState, InformationFromTheStates, validateResponse, validateStateStructure, validateBankStructure, allCars, validateCarrStructure, preCars, objects, validateObjectsStructure } from './helpers/helperBrasilAPI';
+import { getAllBanks, getBankByCode, getBankInvalidCode, allMunicipalitiesState, informationFromAState, InformationFromTheStates, validateResponse, validateStateStructure, validateBankStructure, allCars, validateCarrStructure, preCars, objects, validateObjectsStructure, objectsById } from './helpers/helperBrasilAPI';
 import { brasilAPIBank, brasilAPIUF, brasilAPICarr, restful } from './data/brasilAPIData';
 
 // ===============================
@@ -141,4 +141,12 @@ test.describe('Restful - API', () => {
       expect(item.name).toBe('Google Pixel 6 Pro');                                                                                                                                                                                                
   });
  
+  test('Deve retornar uma lista de objetos buscando pelo ID', async ({ request }: { request: APIRequestContext }) => {
+      const res: APIResponse = await objectsById(request, restful.IdObjects);
+      const body: Record<string, any> = await validateResponse(res);
+      validateObjectsStructure((body[0]));
+      const item = body[0];
+      expect(item.name).toBe('Google Pixel 6 Pro');                                                                                                                                                                                                
+  });
+
 });

@@ -41,7 +41,7 @@ export const brasilAPICarr = {
 
 export const restful = {
   allObjects: '',
-  objects1: '',
+  IdObjects: '1',
   object2: '',
   email: gerarEmailAleatorio(),
   email2: gerarEmailAleatorio(),
