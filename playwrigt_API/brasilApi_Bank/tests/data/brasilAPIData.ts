@@ -14,7 +14,7 @@ export const brasilAPIBank = {
 };
 
 export const brasilAPIUF = {
-  UF: 'PE',
+  UF: 'SP',
   UFerro: 'LL',
   all: '',
   email: gerarEmailAleatorio(),
