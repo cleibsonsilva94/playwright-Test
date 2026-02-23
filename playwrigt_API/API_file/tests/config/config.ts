@@ -1,9 +1,6 @@
 export const config = {
-  baseURL: '',
+  baseURL: 'https://restapi.wcaquino.me/',
   endpoints: {
-    login: '',
-    usuarios: '',
-    produtos: '',
-    carrinhos: ''
+    olaMundo: 'ola'
   }
 };
