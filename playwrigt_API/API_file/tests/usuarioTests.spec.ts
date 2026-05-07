@@ -1,13 +1,12 @@
 import { test, expect } from '@playwright/test';
-import { olaMundo } from './helpers/helperUser';
-import { Points } from './data/data';
+import { olaMundo, } from './helpers/helperUser';
+import { points } from './data/data';
 
 test.describe('API Inicial', () => {
   let apiRequestContext: any; //Qualquer valor
 
   test('Olá Mundo', async () => {
-    const response = await olaMundo(apiRequestContext);
-    expect(response).toBeTruthy();//verificação confirma que: O login funcionou A API retornou um token válido (não vazio)
+    const response = await olaMundo();
   });
 
 });

@@ -4,8 +4,8 @@
 //   return `${prefixo}${numero}@qa.com.br`;
 // }
 
-export const Points = {
-  point1: 'Ola'
+export const points = {
+  Point1: 'Ola'
   // nome2: '',
   // email: gerarEmailAleatorio(),
   // email2: gerarEmailAleatorio(),

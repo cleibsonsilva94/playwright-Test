@@ -1,16 +1,22 @@
 import { expect, APIRequestContext, request } from '@playwright/test';
 import { config } from '../config/config';
-import { points } from '../data/data';
+import { userData } from '../data/userData';
 
 
-export async function olaMundo(): Promise<{ apiRequestContext: APIRequestContext }> { // Cria um novo contexto de requisição HTTP do Playwright."ambiente isolado" para fazer chamadas à API. usado para todas as requisições (POST, GET, DELETE) dentro do teste
+export async function setupUsuario(): Promise<{ apiRequestContext: APIRequestContext; idUsuario: string }> { // Cria um novo contexto de requisição HTTP do Playwright."ambiente isolado" para fazer chamadas à API. usado para todas as requisições (POST, GET, DELETE) dentro do teste
   const apiRequestContext = await request.newContext(); 
-  const res = await apiRequestContext.get(`${config.baseURL}${config.endpoints.olaMundo}`, {  // chamada HTTP POST para criar um usuário. u a baseURL do config + o endpoint /usuarios para montar a URL completa. Depende do contexto criado na linha anterior para executar a requisição.
+  const res = await apiRequestContext.post(`${config.baseURL}${config.endpoints.usuarios}`, {  // chamada HTTP POST para criar um usuário. u a baseURL do config + o endpoint /usuarios para montar a URL completa. Depende do contexto criado na linha anterior para executar a requisição.
+      data: {
+      nome: userData.nome,
+      email: userData.email,
+      password: userData.senha,
+      administrador: userData.administrador
+    }
   });
 
-  expect(res.status()).toBe(200); // Valida que a resposta da API tem status 201 (Created). Se não for 201, o teste falha aqui.
-  // Converte a resposta da API para JSON para acessar os dados retornados.
-  return { apiRequestContext }; // - O contexto (para usar em outras funções, como login ou teardown).  O ID do usuário criado (para buscar ou excluir depois).
+  expect(res.status()).toBe(201); // Valida que a resposta da API tem status 201 (Created). Se não for 201, o teste falha aqui.
+  const body = await res.json();  // Converte a resposta da API para JSON para acessar os dados retornados.
+  return { apiRequestContext, idUsuario: body._id }; // - O contexto (para usar em outras funções, como login ou teardown).  O ID do usuário criado (para buscar ou excluir depois).
 }
 
 
