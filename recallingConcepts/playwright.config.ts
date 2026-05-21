@@ -40,6 +40,13 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
 
+    const config: PlaywrightTestConfig = {
+  use: {
+    // Tira um screenshot automaticamente após cada teste e salva nos relatórios
+    screenshot: 'on', 
+  },
+};
+
     // {
     //   name: 'firefox',
     //   use: { ...devices['Desktop Firefox'] },

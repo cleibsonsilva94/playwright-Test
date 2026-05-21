@@ -19,5 +19,11 @@
   "devDependencies": {
     "@playwright/test": "^1.38.1",
     "@types/node": "^18.18.1"
+  },
+  "dependencies": {
+    "allure-playwright": "^3.9.0",
+    "docx": "^9.6.1",
+    "fs-extra": "^11.3.5",
+    "pdfkit": "^0.18.0"
   }
 }
