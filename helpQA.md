@@ -106,19 +106,101 @@ this.browser = await chromium.launch({
 
 # ⚙️ SETUP
 
-▶ Criar projeto
-npm init playwright@latest
+# 🚀 EXECUÇÃO DE TESTES E RELATÓRIO (Cucumber + Allure)
 
-▶ Instalar browsers
-npx playwright install
+# ▶ EXECUTAR TESTES COM RELATÓRIO + HISTÓRICO + DATA
 
-▶ Instalar apenas Chromium
-npx playwright install chromium
-
-▶ Gerar código automático
-npx playwright codegen
+## Rodar TODOS os testes
+npm run run:all
 
 ---
+
+## Rodar teste por NOME
+npm run run:name --name="Login com sucesso"
+
+---
+
+## Rodar teste por TAG
+npm run run:tag --tag="@login-sucesso"
+
+---
+
+## Rodar script fixo (exemplo)
+npm run run:login
+
+
+# ▶ O QUE OS COMANDOS FAZEM
+
+Todos os comandos seguem o fluxo:
+
+restoreHistory → executa testes → saveHistory → gera relatório com data → abre Allure
+
+---
+
+# ▶ RESULTADO DOS RELATÓRIOS
+
+A cada execução será criada uma nova pasta:
+
+allure-reports/
+  report-2026-05-21T21-45-00
+  report-2026-05-21T21-50-10
+  report-2026-05-21T21-55-30
+
+Cada pasta contém:
+- relatório HTML
+- screenshots
+- dados da execução
+
+---
+
+# ▶ COMO VER O HISTÓRICO
+
+1. Execute qualquer comando (ex: run:all)
+
+2. O relatório será aberto automaticamente
+
+3. Dentro do Allure:
+Menu → Graphs → History
+
+Você verá:
+- execuções anteriores
+- evolução dos testes
+- quantidade de falhas vs sucesso
+
+4. Ver relatório por data
+
+- npx allure open allure-reports/caminho da pasta
+- ex: npx allure open allure-reports/report-2026-05-25T20-49-06-758Z
+
+---
+
+# ▶ PASTAS IMPORTANTES
+
+allure-results  → dados da execução atual  
+allure-report   → relatório temporário (não relevante com timestamp)  
+allure-reports  → relatórios versionados por data ✅  
+evidences       → screenshots  
+allure-history  → histórico entre execuções  
+
+---
+
+# ▶ RESUMO
+
+Rodar todos → npm run run:all  
+Por nome → npm run run:name  
+Por tag → npm run run:tag  
+
+Relatórios → gerados automaticamente  
+Histórico → mantido automaticamente  
+Execuções → salvas por data  
+
+---
+
+# ▶ OBSERVAÇÃO IMPORTANTE
+
+- O Allure mantém histórico entre execuções
+- Cada execução gera um novo relatório com timestamp
+- Não há sobrescrita de relatórios antigos
 
 # ✅ PRIORIDADE DE USO (Selector)
 

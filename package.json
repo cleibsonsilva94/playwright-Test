@@ -2,19 +2,26 @@
   "name": "playwrightevidence",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+
+  "scripts": {
+    "run:all": "node restoreHistory.js && cucumber-js && node saveHistory.js && node generateReport.js",
+    "run:name": "node restoreHistory.js && cucumber-js --name \"$npm_config_name\" && node saveHistory.js && node generateReport.js",
+    "run:tag": "node restoreHistory.js && cucumber-js --tags \"$npm_config_tag\" && node saveHistory.js && node generateReport.js",
+    "run:login": "node restoreHistory.js && cucumber-js --tags @login-sucesso && node saveHistory.js && node generateReport.js"
+  },
+
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
+
   "devDependencies": {
     "@playwright/test": "^1.60.0",
     "@types/node": "^25.9.1",
     "allure-commandline": "^2.41.0",
-    "allure-cucumberjs": "^3.9.0",
-    "allure-js-commons": "^3.9.0",
     "allure-playwright": "^3.9.0"
   },
+
   "dependencies": {
     "@cucumber/cucumber": "^12.9.0",
     "ts-node": "^10.9.2"
