@@ -7,7 +7,8 @@
     "run:all": "node restoreHistory.js && cucumber-js && node saveHistory.js && node generateReport.js",
     "run:name": "node restoreHistory.js && cucumber-js --name \"$npm_config_name\" && node saveHistory.js && node generateReport.js",
     "run:tag": "node restoreHistory.js && cucumber-js --tags \"$npm_config_tag\" && node saveHistory.js && node generateReport.js",
-    "run:login": "node restoreHistory.js && cucumber-js --tags @login-sucesso && node saveHistory.js && node generateReport.js"
+    "run:login": "node restoreHistory.js && cucumber-js --tags @login-sucesso && node saveHistory.js && node generateReport.js",
+     "clean": "rmdir /s /q allure-results & rmdir /s /q allure-report & rmdir /s /q allure-reports & rmdir /s /q allure-history & rmdir /s /q evidences"
   },
 
   "keywords": [],
