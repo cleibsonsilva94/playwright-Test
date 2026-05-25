@@ -1,0 +1,35 @@
+import fs from 'fs';
+import path from 'path';
+import { Page } from '@playwright/test';
+
+let stepCounter = 1;
+
+function sanitize(text: string) {
+  return text.replace(/[<>:"/\\|?*]+/g, '').trim();
+}
+
+export async function stepWithScreenshot(
+  page: Page,
+  stepName: string,
+  action: () => Promise<void>
+) {
+  await action();
+
+  const dir = path.resolve('evidences');
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+
+  const fileName = `${stepCounter.toString().padStart(2, '0')} - ${sanitize(stepName)}.png`;
+
+  await page.screenshot({
+    path: path.join(dir, fileName),
+    fullPage: true,
+  });
+
+  stepCounter++;
+}
+
+export function resetSteps() {
+  stepCounter = 1;
+}

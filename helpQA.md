@@ -10,57 +10,93 @@ test('', async ({ page }) => {
 
 # ✅ ▶️ COMANDOS PARA RODAR TESTES
 
-▶ Executar todos os testes
+---
+
+# 🔷 🚀 PLAYWRIGHT (Testes técnicos)
+
+### ▶ Executar todos os testes
 npx playwright test
 
-▶ Executar em modo UI
+### ▶ Executar em modo UI
 npx playwright test --ui
 
-▶ Executar teste específico
+### ▶ Executar teste específico (arquivo)
 npx playwright test tests/login.spec.ts
 
-▶ Executar por nome
+### ▶ Executar por nome
 npx playwright test -g "nome do teste"
 
-▶ Navegador específico
-npx playwright test --project=chromium
-npx playwright test --project=firefox
-npx playwright test --project=webkit
+### ▶ Navegador específico
+npx playwright test --project=chromium  
+npx playwright test --project=firefox  
+npx playwright test --project=webkit  
 
-▶ Modo debug
+### ▶ Modo debug
 npx playwright test --debug
 
-▶ Headed (visual)
+### ▶ Headed (visual)
 npx playwright test --headed
 
-▶ Reexecutar falhas
+### ▶ Reexecutar falhas
 npx playwright test --last-failed
 
-▶ Ativar trace
+### ▶ Ativar trace
 npx playwright test --trace on
 
-▶ Abrir trace
+### ▶ Abrir trace
 npx playwright show-trace trace.zip
 
-▶ Relatório HTML
+### ▶ Relatório HTML
 npx playwright show-report
 
-▶ Paralelismo
+### ▶ Paralelismo
 npx playwright test --workers=4
 
-▶ Execução serial
+### ▶ Execução serial
 npx playwright test --workers=1
 
-▶ Atualizar snapshots
+### ▶ Atualizar snapshots
 npx playwright test --update-snapshots
 
-▶ Rodar testes marcados
+### ▶ Rodar testes marcados
 npx playwright test -g @smoke
 
-▶ Debug alternativo
+### ▶ Debug alternativo
 PWDEBUG=1 npx playwright test
 
 ---
+
+# 🔷 🧪 CUCUMBER (BDD)
+
+### ▶ Executar todos os cenários
+npx cucumber-js
+
+### ▶ Executar feature específica
+npx cucumber-js tests/features/login.feature
+
+### ▶ Executar por TAG
+npx cucumber-js --tags "@login-sucesso"
+
+### ▶ Executar múltiplas TAGs
+npx cucumber-js --tags "@smoke or @regression"
+
+### ▶ Ignorar TAG
+npx cucumber-js --tags "not @ignore"
+
+### ▶ Executar por nome do cenário
+npx cucumber-js --name "Login com sucesso"
+
+---
+
+# 🔷 👁️ EXECUÇÃO VISUAL (Cucumber + Playwright)
+
+Configuração no arquivo `hooks.ts`:
+
+```ts
+this.browser = await chromium.launch({
+  headless: false,
+  slowMo: 500
+});
 
 # ⚙️ SETUP
 
