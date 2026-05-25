@@ -1,5 +1,5 @@
 import { Given, When, Then } from '@cucumber/cucumber';
-import { LoginPage } from '../pages/LoginPage'; 
+import { LoginPage } from '../pages/LoginPage';
 import { stepWithScreenshot } from '../../utils/stepHelper';
 
 let loginPage: LoginPage;
