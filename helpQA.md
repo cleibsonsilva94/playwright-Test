@@ -86,6 +86,12 @@ npx cucumber-js --tags "not @ignore"
 ### ▶ Executar por nome do cenário
 npx cucumber-js --name "Login com sucesso"
 
+### ▶ Gerar Relatórios 
+npx allure generate allure-results --clean
+
+### ▶ Abrir Relatórios 
+npx allure open
+
 ---
 
 # 🔷 👁️ EXECUÇÃO VISUAL (Cucumber + Playwright)

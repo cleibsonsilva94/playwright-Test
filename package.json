@@ -11,6 +11,8 @@
     "@playwright/test": "^1.60.0",
     "@types/node": "^25.9.1",
     "allure-commandline": "^2.41.0",
+    "allure-cucumberjs": "^3.9.0",
+    "allure-js-commons": "^3.9.0",
     "allure-playwright": "^3.9.0"
   },
   "dependencies": {
